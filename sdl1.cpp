@@ -1,0 +1,81 @@
+#include <SDL/SDL_main.h>
+#include <SDL/begin_code.h>
+#include <SDL/close_code.h>
+#include <SDL/SDL_active.h>
+#include <SDL/SDL_audio.h>
+#include <SDL/SDL_byteorder.h>
+#include <SDL/SDL_cdrom.h>
+#include <SDL/SDL_config.h>
+#include <SDL/SDL_cpuinfo.h>
+#include <SDL/SDL_endian.h>
+#include <SDL/SDL_error.h>
+#include <SDL/SDL_events.h>
+#include <SDL/SDL_getenv.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_joystick.h>
+#include <SDL/SDL_keyboard.h>
+#include <SDL/SDL_keysym.h>
+#include <SDL/SDL_loadso.h>
+#include <SDL/SDL_main.h>
+#include <SDL/SDL_mouse.h>
+#include <SDL/SDL_mutex.h>
+#include <SDL/SDL_name.h>
+#include <SDL/SDL_opengl.h>
+#include <SDL/SDL_platform.h>
+#include <SDL/SDL_quit.h>
+#include <SDL/SDL_rwops.h>
+#include <SDL/SDL_stdinc.h>
+#include <SDL/SDL_syswm.h>
+#include <SDL/SDL_thread.h>
+#include <SDL/SDL_timer.h>
+#include <SDL/SDL_types.h>
+#include <SDL/SDL_version.h>
+#include <SDL/SDL_video.h>
+#include <iostream>
+#include <cstdlib>
+
+#define DOTSIZE 4
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 480
+
+using namespace std; // hoping Roger doesn't see
+
+SDL_Surface *screen = NULL;
+
+void PUT_pixel (int x, int y, int color) {
+	SDL_Rect r;
+	r.x = x;
+	r.y = y;
+	r.w = DOTSIZE;
+	r.h = DOTSIZE;
+
+	SDL_FillRect(screen, &r, color);
+}
+
+int main ( int argc, char ** argv ) {
+	SDL_Surface *hello = NULL;
+
+	SDL_Init (SDL_INIT_EVERYTHING);
+	screen = SDL_SetVideoMode (SCREEN_WIDTH, SCREEN_HEIGHT, 32, SDL_SWSURFACE);
+
+	if (screen == NULL) {
+		puts ("Screen null.");
+	}
+	SDL_Flip (screen);
+	while (1) {
+		puts ("Frame.");
+		int x = rand () % SCREEN_WIDTH;
+		int y = rand () % SCREEN_HEIGHT;
+
+		PUT_pixel  (x, y, rand());
+		SDL_Delay (20);
+
+		SDL_Event ev;
+		while (SDL_PollEvent (&event)) {
+
+		}
+	}
+	SDL_Quit();
+	return 0;
+}
+
